@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import { useAlert } from "@/contexts/alert-context";
 
-export default function SignInDialog({ isOpen, onClose, onSubmit }) {
+export default function SignInDialog({ isOpen, onClose }) {
 	const [pin, setPin] = useState(["", "", "", "", "", ""]);
 	const inputRefs = useRef([]);
 	const { showAlert } = useAlert();
@@ -48,7 +48,7 @@ export default function SignInDialog({ isOpen, onClose, onSubmit }) {
 		}
 
 		const fullPin = pin.join("");
-		onSubmit(fullPin);
+
 		showAlert("Sign in successful!", "success");
 	};
 
@@ -70,7 +70,6 @@ export default function SignInDialog({ isOpen, onClose, onSubmit }) {
 				</div>
 
 				<form onSubmit={handleSubmit} className="space-y-6 p-6 pt-0">
-					{/* PIN Input */}
 					<div>
 						<label className="block text-sm font-medium text-foreground mb-3">
 							Enter 6-Digit PIN
@@ -93,7 +92,6 @@ export default function SignInDialog({ isOpen, onClose, onSubmit }) {
 						</div>
 					</div>
 
-					{/* Buttons */}
 					<div className="flex gap-3">
 						<button
 							type="button"

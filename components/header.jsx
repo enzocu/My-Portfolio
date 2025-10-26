@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Download, LogOut, LogIn, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Download, LogOut, Menu, X } from "lucide-react";
 import ThemeToggle from "./theme-toggle";
 import ProjectDialog from "./dialogs/project-dialog";
 import AchievementsDialog from "./dialogs/achievements-dialog";
@@ -11,10 +12,14 @@ import SignInDialog from "./dialogs/signin-dialog";
 import SignOutConfirmationDialog from "./dialogs/signout-confirmation-dialog";
 import { useAlert } from "@/contexts/alert-context";
 
+import { useUserAuth } from "@/contexts/user-context";
+
 export default function Header({ isDark, onToggleDarkMode }) {
+	const { userDetails } = useUserAuth();
+	const searchParams = useSearchParams();
+
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-	const [isSignedIn, setIsSignedIn] = useState(false);
 
 	const [dialogs, setDialogs] = useState({
 		project: false,
@@ -32,6 +37,13 @@ export default function Header({ isDark, onToggleDarkMode }) {
 	const closeDialog = (name) =>
 		setDialogs((prev) => ({ ...prev, [name]: false }));
 
+	useEffect(() => {
+		const mode = searchParams.get("mode");
+		if (mode === "signin") {
+			openDialog("signIn");
+		}
+	}, [searchParams]);
+
 	const handleDownloadCV = () => {
 		const link = document.createElement("a");
 		link.href = "/cv.pdf";
@@ -48,20 +60,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 		showAlert(`${type} registered successfully!`, "success");
 	};
 
-	const handleSignIn = (pin) => {
-		console.log("Signed in with PIN:", pin);
-		setIsSignedIn(true);
-		closeDialog("signIn");
-		setIsMobileMenuOpen(false);
-	};
-
-	const handleSignOut = () => {
-		setIsSignedIn(false);
-		closeDialog("signOutConfirm");
-		setIsMobileMenuOpen(false);
-	};
-
-	// Reusable Menu Buttons
 	const menuItems = [
 		{ name: "Project", dialog: "project" },
 		{ name: "Achievement", dialog: "achievements" },
@@ -89,7 +87,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 		<>
 			<header className="fixed top-0 left-0 right-0 z-50 bg-background/5 backdrop-blur-sm border-b border-border">
 				<div className="flex items-center justify-between px-6 py-4">
-					{/* Logo */}
 					<div className="flex items-center gap-3">
 						<img
 							src={isDark ? "/logo-dark-mode.png" : "/logo-light-mode.png"}
@@ -98,7 +95,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 						/>
 					</div>
 
-					{/* Desktop Navigation */}
 					<div className="hidden md:flex items-center gap-4">
 						<button
 							onClick={handleDownloadCV}
@@ -110,39 +106,33 @@ export default function Header({ isDark, onToggleDarkMode }) {
 						</button>
 
 						<ThemeToggle isDark={isDark} onToggleDarkMode={onToggleDarkMode} />
-
-						<div className="relative">
-							<button
-								onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-								className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
-							>
-								Register
-							</button>
-							{isDropdownOpen && (
-								<div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg">
-									{renderRegisterButtons(false)}
+						{userDetails?.isCurrentUser && (
+							<>
+								<div className="relative">
+									<button
+										onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+										className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
+									>
+										Register
+									</button>
+									{isDropdownOpen && (
+										<div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg">
+											{renderRegisterButtons(false)}
+										</div>
+									)}
 								</div>
-							)}
-						</div>
 
-						{isSignedIn ? (
-							<button
-								onClick={() => openDialog("signOutConfirm")}
-								className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors text-sm text-foreground"
-							>
-								Sign Out
-							</button>
-						) : (
-							<button
-								onClick={() => openDialog("signIn")}
-								className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
-							>
-								Sign In
-							</button>
+								<button
+									onClick={() => openDialog("signOutConfirm")}
+									className="w-full flex items-center gap-3 px-4 py-3 border border-border rounded-lg hover:bg-muted transition-colors text-sm text-foreground"
+								>
+									<LogOut className="w-4 h-4" />
+									Sign Out
+								</button>
+							</>
 						)}
 					</div>
 
-					{/* Mobile Menu Button */}
 					<div className="md:hidden flex items-center gap-2">
 						<button
 							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -181,17 +171,17 @@ export default function Header({ isDark, onToggleDarkMode }) {
 								/>
 							</div>
 
-							<div className="space-y-2">
-								<p className="text-xs font-semibold text-muted-foreground px-2 uppercase tracking-wide">
-									Register
-								</p>
-								<div className="space-y-1 bg-muted rounded-lg p-2 border border-border">
-									{renderRegisterButtons(true)}
-								</div>
-							</div>
+							{userDetails?.isCurrentUser && (
+								<>
+									<div className="space-y-2">
+										<p className="text-xs font-semibold text-muted-foreground px-2 uppercase tracking-wide">
+											Register
+										</p>
+										<div className="space-y-1 bg-muted rounded-lg p-2 border border-border">
+											{renderRegisterButtons(true)}
+										</div>
+									</div>
 
-							<div>
-								{isSignedIn ? (
 									<button
 										onClick={() => openDialog("signOutConfirm")}
 										className="w-full flex items-center gap-3 px-4 py-3 border border-border rounded-lg hover:bg-muted transition-colors text-sm text-foreground"
@@ -199,19 +189,8 @@ export default function Header({ isDark, onToggleDarkMode }) {
 										<LogOut className="w-4 h-4" />
 										Sign Out
 									</button>
-								) : (
-									<button
-										onClick={() => {
-											openDialog("signIn");
-											setIsMobileMenuOpen(false);
-										}}
-										className="w-full flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
-									>
-										<LogIn className="w-4 h-4" />
-										Sign In
-									</button>
-								)}
-							</div>
+								</>
+							)}
 						</div>
 					</div>
 				)}
@@ -222,6 +201,7 @@ export default function Header({ isDark, onToggleDarkMode }) {
 				isOpen={dialogs.project}
 				onClose={() => closeDialog("project")}
 				onSubmit={(data) => handleRegisterSubmit("Project", data)}
+				userDetails={userDetails}
 			/>
 			<AchievementsDialog
 				isOpen={dialogs.achievements}
@@ -241,12 +221,10 @@ export default function Header({ isDark, onToggleDarkMode }) {
 			<SignInDialog
 				isOpen={dialogs.signIn}
 				onClose={() => closeDialog("signIn")}
-				onSubmit={handleSignIn}
 			/>
 			<SignOutConfirmationDialog
 				isOpen={dialogs.signOutConfirm}
 				onClose={() => closeDialog("signOutConfirm")}
-				onConfirm={handleSignOut}
 			/>
 		</>
 	);

@@ -15,7 +15,13 @@ export default function RightContent({ onSectionChange }) {
 		const handleScroll = () => {
 			if (!containerRef.current) return;
 
-			const sections = ["about", "technologies", "projects", "achievements"];
+			const sections = [
+				"about",
+				"technologies",
+				"projects",
+				"achievements",
+				"gallery",
+			];
 			const scrollPosition = containerRef.current.scrollTop + 230;
 
 			for (const section of sections) {

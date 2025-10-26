@@ -2,9 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { X, Check } from "lucide-react";
-import { AVAILABLE_TECHNOLOGIES } from "./technologies-list";
+import { AVAILABLE_TECHNOLOGIES } from "@/components/dialogs/technologies-list";
 
-export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
+export default function ProjectDialog({
+	isOpen,
+	onClose,
+	onSubmit,
+	userDetails,
+}) {
+	const userTechs = userDetails?.us_technology || [];
+
 	const [formData, setFormData] = useState({
 		picture: null,
 		title: "",
@@ -14,16 +21,13 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 	});
 	const [imagePreview, setImagePreview] = useState(null);
 
-	// Prevent body scroll when modal is open
+	const filteredTechs = AVAILABLE_TECHNOLOGIES.filter((t) =>
+		userTechs.includes(t.name)
+	);
+
 	useEffect(() => {
-		if (isOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "auto";
-		}
-		return () => {
-			document.body.style.overflow = "auto";
-		};
+		document.body.style.overflow = isOpen ? "hidden" : "auto";
+		return () => (document.body.style.overflow = "auto");
 	}, [isOpen]);
 
 	const handleInputChange = (e) => {
@@ -36,9 +40,7 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 		if (file) {
 			setFormData((prev) => ({ ...prev, picture: file }));
 			const reader = new FileReader();
-			reader.onloadend = () => {
-				setImagePreview(reader.result);
-			};
+			reader.onloadend = () => setImagePreview(reader.result);
 			reader.readAsDataURL(file);
 		}
 	};
@@ -73,20 +75,20 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden">
 				{/* Header */}
-				<div className="flex items-center justify-between p-6 border-b border-border flex-shrink-0">
+				<div className="flex items-center justify-between p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">
 						Register Project
 					</h2>
 					<button
 						onClick={onClose}
-						className="text-muted-foreground hover:text-foreground transition-colors"
+						className="text-muted-foreground hover:text-foreground"
 						aria-label="Close dialog"
 					>
 						<X className="w-5 h-5" />
 					</button>
 				</div>
 
-				{/* Body (scrollable) */}
+				{/* Body */}
 				<div className="p-6 overflow-y-auto flex-1 space-y-5">
 					<form onSubmit={handleSubmit} className="space-y-5">
 						<div>
@@ -97,18 +99,13 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 								type="file"
 								accept="image/*"
 								onChange={handleFileChange}
-								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary"
 								required
 							/>
-							{formData.picture && (
-								<p className="text-xs text-muted-foreground mt-1">
-									{formData.picture.name}
-								</p>
-							)}
 							{imagePreview && (
 								<div className="mt-3 rounded-lg overflow-hidden border border-border">
 									<img
-										src={imagePreview || "/placeholder.svg"}
+										src={imagePreview}
 										alt="Preview"
 										className="w-full h-40 object-cover"
 									/>
@@ -126,7 +123,7 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 								value={formData.title}
 								onChange={handleInputChange}
 								placeholder="Project title"
-								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary"
 								required
 							/>
 						</div>
@@ -141,7 +138,7 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 								onChange={handleInputChange}
 								placeholder="Project description"
 								rows="5"
-								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary resize-none"
 								required
 							/>
 						</div>
@@ -155,7 +152,7 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 								name="date"
 								value={formData.date}
 								onChange={handleInputChange}
-								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary"
 								required
 							/>
 						</div>
@@ -165,23 +162,27 @@ export default function ProjectDialog({ isOpen, onClose, onSubmit }) {
 								Technologies Used
 							</label>
 							<div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border border-border rounded-lg p-3 bg-background">
-								{AVAILABLE_TECHNOLOGIES.map((tech) => (
-									<button
-										key={tech}
-										type="button"
-										onClick={() => handleTechToggle(tech)}
-										className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-											formData.technologies.includes(tech)
-												? "bg-primary text-primary-foreground"
-												: "bg-muted text-muted-foreground hover:bg-muted/80"
-										}`}
-									>
-										{formData.technologies.includes(tech) && (
-											<Check className="w-4 h-4" />
-										)}
-										{tech}
-									</button>
-								))}
+								{filteredTechs.map((tech) => {
+									const Icon = tech.icon;
+									return (
+										<button
+											key={tech.name}
+											type="button"
+											onClick={() => handleTechToggle(tech.name)}
+											className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+												formData.technologies.includes(tech.name)
+													? "bg-primary text-primary-foreground"
+													: "bg-muted text-muted-foreground hover:bg-muted/80"
+											}`}
+										>
+											{formData.technologies.includes(tech.name) && (
+												<Check className="w-4 h-4" />
+											)}
+											<Icon className="w-4 h-4" />
+											{tech.name}
+										</button>
+									);
+								})}
 							</div>
 							{formData.technologies.length > 0 && (
 								<p className="text-xs text-muted-foreground mt-2">

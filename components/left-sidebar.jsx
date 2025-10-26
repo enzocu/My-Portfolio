@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 
 export default function LeftSidebar({ activeSection, onSectionClick }) {
 	const [isDark, setIsDark] = useState(false);
-	const sections = ["about", "technologies", "projects", "achievements"];
+	const sections = [
+		"about",
+		"technologies",
+		"projects",
+		"achievements",
+		"gallery",
+	];
 
 	useEffect(() => {
 		const isDarkMode = document.documentElement.classList.contains("dark");
