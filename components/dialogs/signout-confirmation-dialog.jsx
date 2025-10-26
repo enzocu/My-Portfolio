@@ -1,13 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { useAlert } from "@/contexts/alert-context";
+import { handleLogout } from "@/controller/auth/logout";
+import { LoadingSpinner } from "@/components/ui/loading";
 
 export default function SignOutConfirmationDialog({ isOpen, onClose }) {
 	const { showAlert } = useAlert();
+	const [btnLoading, setBtnLoading] = useState(false);
 
-	const handleConfirm = () => {
-		showAlert("You have been signed out", "success");
+	const handleConfirm = async () => {
+		await handleLogout(setBtnLoading, showAlert, onClose);
 	};
 
 	if (!isOpen) return null;
@@ -36,9 +40,9 @@ export default function SignOutConfirmationDialog({ isOpen, onClose }) {
 					</button>
 					<button
 						onClick={handleConfirm}
-						className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm "
+						className="flex-1 flex items-center justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm disabled:opacity-80"
 					>
-						Sign Out
+						{btnLoading ? <LoadingSpinner loading={btnLoading} /> : "Sign Out"}
 					</button>
 				</div>
 			</div>

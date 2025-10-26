@@ -39,10 +39,10 @@ export default function Header({ isDark, onToggleDarkMode }) {
 
 	useEffect(() => {
 		const mode = searchParams.get("mode");
-		if (mode === "signin") {
+		if (mode === "signin" && !userDetails?.isCurrentUser) {
 			openDialog("signIn");
 		}
-	}, [searchParams]);
+	}, [searchParams, userDetails]);
 
 	const handleDownloadCV = () => {
 		const link = document.createElement("a");
@@ -124,7 +124,7 @@ export default function Header({ isDark, onToggleDarkMode }) {
 
 								<button
 									onClick={() => openDialog("signOutConfirm")}
-									className="w-full flex items-center gap-3 px-4 py-3 border border-border rounded-lg hover:bg-muted transition-colors text-sm text-foreground"
+									className="flex items-center gap-3 px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors text-sm text-foreground"
 								>
 									<LogOut className="w-4 h-4" />
 									Sign Out
@@ -152,7 +152,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 				{isMobileMenuOpen && (
 					<div className="md:hidden border-t border-border bg-background/95 backdrop-blur-sm">
 						<div className="px-6 py-4 space-y-4">
-							{/* Download */}
 							<button
 								onClick={handleDownloadCV}
 								className="w-full flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
@@ -196,7 +195,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 				)}
 			</header>
 
-			{/* Dialogs */}
 			<ProjectDialog
 				isOpen={dialogs.project}
 				onClose={() => closeDialog("project")}

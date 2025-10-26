@@ -3,11 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import { useAlert } from "@/contexts/alert-context";
+import { handleLogin } from "@/controller/auth/login";
+import { LoadingSpinner } from "@/components/ui/loading";
 
 export default function SignInDialog({ isOpen, onClose }) {
 	const [pin, setPin] = useState(["", "", "", "", "", ""]);
 	const inputRefs = useRef([]);
 	const { showAlert } = useAlert();
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	useEffect(() => {
 		if (isOpen) {
@@ -39,17 +42,15 @@ export default function SignInDialog({ isOpen, onClose }) {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (pin.some((digit) => digit === "")) {
 			showAlert("Please enter all 6 digits", "warning");
 			return;
 		}
-
 		const fullPin = pin.join("");
-
-		showAlert("Sign in successful!", "success");
+		await handleLogin(fullPin, setBtnLoading, showAlert, onClose);
 	};
 
 	if (!isOpen) return null;
@@ -102,9 +103,9 @@ export default function SignInDialog({ isOpen, onClose }) {
 						</button>
 						<button
 							type="submit"
-							className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm "
+							className="flex-1 flex items-center justify-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm disabled:opacity-80"
 						>
-							Sign In
+							{btnLoading ? <LoadingSpinner loading={btnLoading} /> : "Sign In"}
 						</button>
 					</div>
 				</form>
