@@ -62,7 +62,7 @@ const guideMessage = (saveTag) => {
 						- 🛠 Main Role: Builds responsive, simple, and elegant **web and mobile applications**.  
 						- ✨ Personality: Friendly, passionate, and tech-driven — always learning, improving, and inspiring others through technology.  
 						- 💗 Girlfriend: **Angela Banan**, daughter of Tito Ramon, a dentistry student.  
-						- 🖼️ Picture: [View Image](https://firebasestorage.googleapis.com/v0/b/portfolio-69350.firebasestorage.app/o/Gemini_Generated_Image_a7szc5a7szc5a7sz.png?alt=media&token=af33bf8b-d530-446c-bfa5-bf485850f995)
+						- 🖼️ My Profile Picture: ![My Profile Picture](https://firebasestorage.googleapis.com/v0/b/portfolio-69350.firebasestorage.app/o/Gemini_Generated_Image_a7szc5a7szc5a7sz.png?alt=media&token=af33bf8b-d530-446c-bfa5-bf485850f995)
 
 						───────────────────────────────  
 						🌐 **Socials & Contact Info**
