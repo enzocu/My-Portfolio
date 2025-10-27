@@ -3,12 +3,16 @@
 import { useState, useEffect } from "react";
 import { X, Check } from "lucide-react";
 import { AVAILABLE_TECHNOLOGIES } from "@/components/dialogs/technologies-list";
+import { saveProject } from "@/controller/save/saveProject";
+import { LoadingSpinner } from "@/components/ui/loading";
 
 export default function ProjectDialog({
 	isOpen,
 	onClose,
-	onSubmit,
+	projectData = null,
 	userDetails,
+	userRef,
+	showAlert,
 }) {
 	const userTechs = userDetails?.us_technology || [];
 
@@ -18,8 +22,10 @@ export default function ProjectDialog({
 		about: "",
 		date: "",
 		technologies: [],
+		url: "",
 	});
 	const [imagePreview, setImagePreview] = useState(null);
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	const filteredTechs = AVAILABLE_TECHNOLOGIES.filter((t) =>
 		userTechs.includes(t.name)
@@ -27,8 +33,29 @@ export default function ProjectDialog({
 
 	useEffect(() => {
 		document.body.style.overflow = isOpen ? "hidden" : "auto";
+		if (projectData) {
+			setFormData({
+				picture: projectData.pr_photoURL || null,
+				title: projectData.pr_title || "",
+				about: projectData.pr_description || "",
+				date: projectData.pr_date || "",
+				technologies: projectData.pr_technology || [],
+				url: projectData.pr_url || "",
+			});
+			setImagePreview(projectData.pr_photoURL || null);
+		} else {
+			setFormData({
+				picture: null,
+				title: "",
+				about: "",
+				date: "",
+				technologies: [],
+				url: "",
+			});
+			setImagePreview(null);
+		}
 		return () => (document.body.style.overflow = "auto");
-	}, [isOpen]);
+	}, [isOpen, projectData]);
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -54,19 +81,21 @@ export default function ProjectDialog({
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (formData.picture && formData.title && formData.about && formData.date) {
-			onSubmit(formData);
-			setFormData({
-				picture: null,
-				title: "",
-				about: "",
-				date: "",
-				technologies: [],
-			});
-			setImagePreview(null);
+		if (!formData.title || !formData.about || !formData.date) {
+			showAlert?.("Please fill all required fields.", "danger");
+			return;
 		}
+
+		await saveProject({
+			userRef,
+			projectData,
+			formData,
+			setBtnLoading,
+			showAlert,
+			onClose,
+		});
 	};
 
 	if (!isOpen) return null;
@@ -77,7 +106,7 @@ export default function ProjectDialog({
 				{/* Header */}
 				<div className="flex items-center justify-between p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">
-						Register Project
+						{projectData ? "Update Project" : "Register Project"}
 					</h2>
 					<button
 						onClick={onClose}
@@ -91,6 +120,7 @@ export default function ProjectDialog({
 				{/* Body */}
 				<div className="p-6 overflow-y-auto flex-1 space-y-5">
 					<form onSubmit={handleSubmit} className="space-y-5">
+						{/* Picture */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								Picture <span className="text-red-500">*</span>
@@ -100,7 +130,6 @@ export default function ProjectDialog({
 								accept="image/*"
 								onChange={handleFileChange}
 								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary"
-								required
 							/>
 							{imagePreview && (
 								<div className="mt-3 rounded-lg overflow-hidden border border-border">
@@ -113,6 +142,7 @@ export default function ProjectDialog({
 							)}
 						</div>
 
+						{/* Title */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								Title <span className="text-red-500">*</span>
@@ -128,6 +158,7 @@ export default function ProjectDialog({
 							/>
 						</div>
 
+						{/* About */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								About <span className="text-red-500">*</span>
@@ -137,12 +168,13 @@ export default function ProjectDialog({
 								value={formData.about}
 								onChange={handleInputChange}
 								placeholder="Project description"
-								rows="5"
+								rows="4"
 								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary resize-none"
 								required
 							/>
 						</div>
 
+						{/* Date */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								Date <span className="text-red-500">*</span>
@@ -157,6 +189,21 @@ export default function ProjectDialog({
 							/>
 						</div>
 
+						{/* URL */}
+						<div>
+							<label className="block text-sm text-foreground mb-2">URL</label>
+							<input
+								type="url"
+								name="url"
+								value={formData.url}
+								onChange={handleInputChange}
+								placeholder="Project URL"
+								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:ring-2 focus:ring-primary"
+								required
+							/>
+						</div>
+
+						{/* Technologies */}
 						<div>
 							<label className="block text-sm text-foreground mb-3">
 								Technologies Used
@@ -193,9 +240,16 @@ export default function ProjectDialog({
 
 						<button
 							type="submit"
-							className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
+							disabled={btnLoading}
+							className=" flex items-center justify-center w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
 						>
-							Register Project
+							{btnLoading ? (
+								<LoadingSpinner loading={btnLoading} />
+							) : projectData ? (
+								"Update Project"
+							) : (
+								"Register Project"
+							)}
 						</button>
 					</form>
 				</div>

@@ -2,26 +2,41 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { saveAchievement } from "@/controller/save/saveAchievement";
+import { LoadingSpinner } from "@/components/ui/loading";
 
-export default function AchievementsDialog({ isOpen, onClose, onSubmit }) {
+export default function AchievementsDialog({
+	isOpen,
+	onClose,
+	achievementData = null,
+	userRef,
+	showAlert,
+}) {
 	const [formData, setFormData] = useState({
 		picture: null,
 		title: "",
 		date: "",
 	});
 	const [imagePreview, setImagePreview] = useState(null);
+	const [btnLoading, setBtnLoading] = useState(false);
 
-	// Prevent body scroll when modal is open
 	useEffect(() => {
-		if (isOpen) {
-			document.body.style.overflow = "hidden";
+		document.body.style.overflow = isOpen ? "hidden" : "auto";
+		if (achievementData) {
+			setFormData({
+				picture: achievementData.ac_photoURL || null,
+				title: achievementData.ac_title || "",
+				date: achievementData.ac_date?.toDate
+					? achievementData.ac_date.toDate().toISOString().slice(0, 10)
+					: "",
+			});
+			setImagePreview(achievementData.ac_photoURL || null);
 		} else {
-			document.body.style.overflow = "auto";
+			setFormData({ picture: null, title: "", date: "" });
+			setImagePreview(null);
 		}
-		return () => {
-			document.body.style.overflow = "auto";
-		};
-	}, [isOpen]);
+		return () => (document.body.style.overflow = "auto");
+	}, [isOpen, achievementData]);
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -33,20 +48,26 @@ export default function AchievementsDialog({ isOpen, onClose, onSubmit }) {
 		if (file) {
 			setFormData((prev) => ({ ...prev, picture: file }));
 			const reader = new FileReader();
-			reader.onloadend = () => {
-				setImagePreview(reader.result);
-			};
+			reader.onloadend = () => setImagePreview(reader.result);
 			reader.readAsDataURL(file);
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (formData.picture && formData.title && formData.date) {
-			onSubmit(formData);
-			setFormData({ picture: null, title: "", date: "" });
-			setImagePreview(null);
+		if (!formData.title || !formData.date) {
+			showAlert?.("Please fill all required fields.", "danger");
+			return;
 		}
+
+		await saveAchievement({
+			userRef,
+			achievementData,
+			formData,
+			setBtnLoading,
+			showAlert,
+			onClose,
+		});
 	};
 
 	if (!isOpen) return null;
@@ -54,21 +75,18 @@ export default function AchievementsDialog({ isOpen, onClose, onSubmit }) {
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden">
-				{/* Header */}
-				<div className="flex items-center justify-between p-6 border-b border-border flex-shrink-0">
+				<div className="flex items-center justify-between p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">
-						Register Achievement
+						{achievementData ? "Update Achievement" : "Register Achievement"}
 					</h2>
 					<button
 						onClick={onClose}
 						className="text-muted-foreground hover:text-foreground transition-colors"
-						aria-label="Close dialog"
 					>
 						<X className="w-5 h-5" />
 					</button>
 				</div>
 
-				{/* Body (scrollable) */}
 				<div className="p-6 overflow-y-auto flex-1 space-y-5">
 					<form onSubmit={handleSubmit} className="space-y-5">
 						<div>
@@ -80,17 +98,11 @@ export default function AchievementsDialog({ isOpen, onClose, onSubmit }) {
 								accept="image/*"
 								onChange={handleFileChange}
 								className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-								required
 							/>
-							{formData.picture && (
-								<p className="text-xs text-muted-foreground mt-1">
-									{formData.picture.name}
-								</p>
-							)}
 							{imagePreview && (
 								<div className="mt-3 rounded-lg overflow-hidden border border-border">
 									<img
-										src={imagePreview || "/placeholder.svg"}
+										src={imagePreview}
 										alt="Preview"
 										className="w-full h-40 object-cover"
 									/>
@@ -129,9 +141,16 @@ export default function AchievementsDialog({ isOpen, onClose, onSubmit }) {
 
 						<button
 							type="submit"
-							className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
+							disabled={btnLoading}
+							className="flex items-center justify-center w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
 						>
-							Register Achievement
+							{btnLoading ? (
+								<LoadingSpinner loading={btnLoading} />
+							) : achievementData ? (
+								"Update Achievement"
+							) : (
+								"Register Achievement"
+							)}
 						</button>
 					</form>
 				</div>

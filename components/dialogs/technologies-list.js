@@ -27,6 +27,7 @@ import {
 	SiTailwindcss,
 	SiTypescript,
 	SiVite,
+	SiGooglemaps,
 } from "react-icons/si";
 
 import { GiGemini } from "react-icons/gi";
@@ -40,9 +41,11 @@ export const AVAILABLE_TECHNOLOGIES = [
 	{ name: "Figma", icon: FaFigma },
 	{ name: "Firebase", icon: SiFirebase },
 	{ name: "Flutter", icon: SiFlutter },
+	{ name: "FlutterFlow", icon: SiFlutter },
 	{ name: "Gemini", icon: GiGemini },
 	{ name: "Git", icon: FaGithub },
 	{ name: "GitHub", icon: FaGithub },
+	{ name: "Google Maps", icon: SiGooglemaps },
 	{ name: "HTML", icon: FaHtml5 },
 	{ name: "Java", icon: FaJava },
 	{ name: "JavaScript", icon: FaJsSquare },

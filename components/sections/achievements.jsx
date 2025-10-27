@@ -4,13 +4,18 @@ import { useState, useEffect } from "react";
 import { useUserAuth } from "@/contexts/user-context";
 import { getAchievements } from "@/controller/get/getAchievements";
 import { useAlert } from "@/contexts/alert-context";
+import AchievementsDialog from "@/components/dialogs/achievements-dialog";
 
 export default function AchievementsSection() {
-	const { userRef } = useUserAuth();
+	const { userRef, userDetails } = useUserAuth();
 	const { showAlert } = useAlert();
 	const [achievementsData, setAchievementsData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [limitValue, setLimitValue] = useState(3);
+
+	// Dialog state
+	const [dialogs, setDialogs] = useState({ achievements: false });
+	const [selectedAchievement, setSelectedAchievement] = useState(null);
 
 	useEffect(() => {
 		let unsubscribe;
@@ -28,6 +33,29 @@ export default function AchievementsSection() {
 
 	const handleToggleLimit = () => {
 		setLimitValue((prev) => (prev === 3 ? 20 : 3));
+	};
+
+	const openAchievementDialog = (achievement = null) => {
+		setSelectedAchievement(achievement);
+		setDialogs({ achievements: true });
+	};
+
+	const closeDialog = (name) => {
+		setDialogs({ [name]: false });
+		setSelectedAchievement(null);
+	};
+
+	const formatDate = (timestamp) => {
+		if (!timestamp) return "";
+		if (timestamp.toDate) {
+			const date = timestamp.toDate();
+			return date.toLocaleDateString(undefined, {
+				day: "numeric",
+				month: "long",
+				year: "numeric",
+			});
+		}
+		return timestamp;
 	};
 
 	return (
@@ -62,16 +90,26 @@ export default function AchievementsSection() {
 							key={index}
 							className="flex flex-col-reverse sm:flex-row items-start gap-4 p-4 rounded-lg border border-border/50 hover:border-blue-700/30 hover:bg-muted/30 transition-all duration-200 group"
 						>
-							<div className="w-58 h-32 sm:w-40 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border bg-muted group-hover:border-blue-700 transition-colors duration-300">
+							<div className="w-58 h-32 sm:w-40 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border bg-muted group-hover:border-blue-700 transition-colors duration-300 relative">
 								<img
 									src={achievement.ac_photoURL || "/placeholder.svg"}
 									alt={achievement.ac_title}
 									className="w-full h-full object-cover"
 								/>
+
+								{userDetails?.isCurrentUser && (
+									<button
+										onClick={() => openAchievementDialog(achievement)}
+										className="absolute top-2 right-2 bg-white/80 hover:bg-white px-2 py-1 rounded text-xs font-medium text-blue-700"
+									>
+										Edit
+									</button>
+								)}
 							</div>
+
 							<div className="flex-1 min-w-0">
-								<p className="text-xs text-muted-foreground uppercase tracking-wide">
-									{achievement.ac_date}
+								<p className="text-xs text-muted-foreground uppercase tracking-wide whitespace-nowrap">
+									{formatDate(achievement.ac_date)}
 								</p>
 								<p className="text-lg font-medium text-foreground mt-1 transition-colors">
 									{achievement.ac_title}
@@ -93,6 +131,14 @@ export default function AchievementsSection() {
 						<span className="text-lg">›</span>
 					</button>
 				)}
+
+			<AchievementsDialog
+				isOpen={dialogs.achievements}
+				onClose={() => closeDialog("achievements")}
+				achievementData={selectedAchievement}
+				userRef={userRef}
+				showAlert={showAlert}
+			/>
 		</section>
 	);
 }

@@ -2,31 +2,50 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import { updateGallery } from "../../controller/update/updateGallery";
+import { LoadingSpinner } from "@/components/ui/loading";
 
-export default function GalleryDialog({ isOpen, onClose, onSubmit }) {
-	const [formData, setFormData] = useState({
-		picture: null,
-	});
+export default function GalleryDialog({
+	isOpen,
+	onClose,
+	registeredImages = [],
+	deleteImage = null,
+	usRef,
+	showAlert,
+}) {
+	const [formData, setFormData] = useState({ picture: null });
 	const [imagePreview, setImagePreview] = useState(null);
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	const handleFileChange = (e) => {
 		const file = e.target.files?.[0];
 		if (file) {
-			setFormData((prev) => ({ ...prev, picture: file }));
+			setFormData({ picture: file });
 			const reader = new FileReader();
-			reader.onloadend = () => {
-				setImagePreview(reader.result);
-			};
+			reader.onloadend = () => setImagePreview(reader.result);
 			reader.readAsDataURL(file);
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (formData.picture) {
-			onSubmit(formData);
+		if (!formData.picture) return;
+
+		try {
+			await updateGallery(
+				usRef,
+				formData.picture,
+				registeredImages,
+				deleteImage,
+				setBtnLoading,
+				showAlert,
+				onClose
+			);
+
 			setFormData({ picture: null });
 			setImagePreview(null);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
@@ -34,7 +53,7 @@ export default function GalleryDialog({ isOpen, onClose, onSubmit }) {
 
 	return (
 		<div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md ">
+			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md">
 				<div className="flex items-center justify-between mb-6 p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">
 						Add to Gallery
@@ -49,7 +68,6 @@ export default function GalleryDialog({ isOpen, onClose, onSubmit }) {
 				</div>
 
 				<form onSubmit={handleSubmit} className="space-y-5 p-6 pt-0">
-					{/* Picture Field */}
 					<div>
 						<label className="block text-sm font-medium text-foreground mb-2">
 							Picture <span className="text-red-500">*</span>
@@ -70,7 +88,7 @@ export default function GalleryDialog({ isOpen, onClose, onSubmit }) {
 						{imagePreview && (
 							<div className="mt-3 rounded-lg overflow-hidden border border-border">
 								<img
-									src={imagePreview || "/placeholder.svg"}
+									src={imagePreview}
 									alt="Preview"
 									className="w-full h-40 object-cover"
 								/>
@@ -78,12 +96,15 @@ export default function GalleryDialog({ isOpen, onClose, onSubmit }) {
 						)}
 					</div>
 
-					{/* Submit Button */}
 					<button
 						type="submit"
-						className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
+						className="flex items-center justify-center w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium text-sm"
 					>
-						Add to Gallery
+						{btnLoading ? (
+							<LoadingSpinner loading={btnLoading} />
+						) : (
+							"Add to Gallery"
+						)}
 					</button>
 				</form>
 			</div>

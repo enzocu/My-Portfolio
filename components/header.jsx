@@ -17,7 +17,6 @@ import { useUserAuth } from "@/contexts/user-context";
 export default function Header({ isDark, onToggleDarkMode }) {
 	const { userDetails, userRef } = useUserAuth();
 	const searchParams = useSearchParams();
-
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -51,13 +50,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 		document.body.appendChild(link);
 		link.click();
 		document.body.removeChild(link);
-	};
-
-	const handleRegisterSubmit = (type, data) => {
-		console.log(`${type} registered:`, data);
-		closeDialog(type.toLowerCase());
-		setIsDropdownOpen(false);
-		showAlert(`${type} registered successfully!`, "success");
 	};
 
 	const menuItems = [
@@ -198,13 +190,17 @@ export default function Header({ isDark, onToggleDarkMode }) {
 			<ProjectDialog
 				isOpen={dialogs.project}
 				onClose={() => closeDialog("project")}
-				onSubmit={(data) => handleRegisterSubmit("Project", data)}
+				projectData={null}
 				userDetails={userDetails}
+				userRef={userRef}
+				showAlert={showAlert}
 			/>
 			<AchievementsDialog
 				isOpen={dialogs.achievements}
 				onClose={() => closeDialog("achievements")}
-				onSubmit={(data) => handleRegisterSubmit("Achievement", data)}
+				achievementData={null}
+				userRef={userRef}
+				showAlert={showAlert}
 			/>
 			<TechnologyDialog
 				isOpen={dialogs.technology}
@@ -216,7 +212,10 @@ export default function Header({ isDark, onToggleDarkMode }) {
 			<GalleryDialog
 				isOpen={dialogs.gallery}
 				onClose={() => closeDialog("gallery")}
-				onSubmit={(data) => handleRegisterSubmit("Gallery", data)}
+				registeredImages={userDetails?.us_gallery}
+				deleteImage={null}
+				usRef={userRef}
+				showAlert={showAlert}
 			/>
 			<SignInDialog
 				isOpen={dialogs.signIn}
