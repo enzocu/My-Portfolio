@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Mail, Facebook, Instagram } from "lucide-react";
+import { Github, Mail, Instagram, Linkedin } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function LeftSidebar({ activeSection, onSectionClick }) {
@@ -67,7 +67,8 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 
 			<div className="flex gap-6">
 				<a
-					href="#"
+					href="#https://github.com/lawcunanan"
+					target="_blank"
 					className={`text-muted-foreground transition-colors ${
 						isDark ? "hover:text-blue-600" : "hover:text-blue-600"
 					}`}
@@ -76,7 +77,17 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 					<Github className="w-5 h-5 lg:w-6 lg:h-6" />
 				</a>
 				<a
-					href="#"
+					href="https://www.facebook.com/lawrence.cunanan.7"
+					target="_blank"
+					className={`text-muted-foreground transition-colors ${
+						isDark ? "hover:text-blue-700" : "hover:text-blue-700"
+					}`}
+					aria-label="LinkedIn"
+				>
+					<Linkedin className="w-5 h-5 lg:w-6 lg:h-6" />
+				</a>
+				<a
+					href="mailto:lawrencecunanan77@gmail.com"
 					className={`text-muted-foreground transition-colors ${
 						isDark ? "hover:text-red-400" : "hover:text-red-600"
 					}`}
@@ -84,17 +95,10 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 				>
 					<Mail className="w-5 h-5 lg:w-6 lg:h-6" />
 				</a>
+
 				<a
-					href="#"
-					className={`text-muted-foreground transition-colors ${
-						isDark ? "hover:text-blue-700" : "hover:text-blue-700"
-					}`}
-					aria-label="Facebook"
-				>
-					<Facebook className="w-5 h-5 lg:w-6 lg:h-6" />
-				</a>
-				<a
-					href="#"
+					href="https://www.instagram.com/lacunanan/"
+					target="_blank"
 					className={`text-muted-foreground transition-colors ${
 						isDark ? "hover:text-pink-400" : "hover:text-pink-600"
 					}`}
