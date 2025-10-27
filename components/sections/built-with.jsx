@@ -1,6 +1,6 @@
 export default function BuiltWithSection() {
 	return (
-		<section className="pt-12 border-t border-border">
+		<section className="pt-6 border-t border-border">
 			<div className="space-y-2">
 				<p className="text-sm text-muted-foreground">
 					Built with{" "}

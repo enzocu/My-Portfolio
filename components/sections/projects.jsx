@@ -95,7 +95,7 @@ export default function ProjectsSection() {
 									{project.pr_technology.map((tech, idx) => (
 										<span
 											key={idx}
-											className="px-3 py-1 bg-blue-700/5 border border-blue-700/40 rounded-4xl text-xs font-medium text-blue-600"
+											className="px-3 py-1 bg-blue-700/5 border border-blue-700/30 rounded-4xl text-xs font-medium text-blue-600"
 										>
 											{tech}
 										</span>

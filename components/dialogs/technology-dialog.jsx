@@ -3,9 +3,18 @@
 import { useState } from "react";
 import { X, Check } from "lucide-react";
 import { AVAILABLE_TECHNOLOGIES } from "./technologies-list";
+import { updateTechnology } from "@/controller/update/updateTechnology";
+import { LoadingSpinner } from "@/components/ui/loading";
 
-export default function TechnologyDialog({ isOpen, onClose, onSubmit }) {
+export default function TechnologyDialog({
+	isOpen,
+	onClose,
+	registeredTechnologies,
+	usRef,
+	showAlert,
+}) {
 	const [selectedTechs, setSelectedTechs] = useState([]);
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	const handleTechToggle = (techName) => {
 		setSelectedTechs((prev) =>
@@ -15,12 +24,24 @@ export default function TechnologyDialog({ isOpen, onClose, onSubmit }) {
 		);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (selectedTechs.length > 0) {
-			onSubmit({ technologies: selectedTechs });
-			setSelectedTechs([]);
+
+		if (selectedTechs.length === 0) {
+			showAlert?.("Please select at least one technology.", "danger");
+			return;
 		}
+
+		await updateTechnology(
+			usRef,
+			registeredTechnologies,
+			selectedTechs,
+			setBtnLoading,
+			showAlert,
+			onClose
+		);
+
+		setSelectedTechs([]);
 	};
 
 	if (!isOpen) return null;
@@ -80,10 +101,14 @@ export default function TechnologyDialog({ isOpen, onClose, onSubmit }) {
 
 					<button
 						type="submit"
-						disabled={selectedTechs.length === 0}
-						className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm"
+						disabled={btnLoading || selectedTechs.length === 0}
+						className="flex items-center justify-center w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm"
 					>
-						Register Technologies
+						{btnLoading ? (
+							<LoadingSpinner loading={btnLoading} />
+						) : (
+							"Register Technologies"
+						)}
 					</button>
 				</form>
 			</div>

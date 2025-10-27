@@ -15,7 +15,7 @@ import { useAlert } from "@/contexts/alert-context";
 import { useUserAuth } from "@/contexts/user-context";
 
 export default function Header({ isDark, onToggleDarkMode }) {
-	const { userDetails } = useUserAuth();
+	const { userDetails, userRef } = useUserAuth();
 	const searchParams = useSearchParams();
 
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -209,7 +209,9 @@ export default function Header({ isDark, onToggleDarkMode }) {
 			<TechnologyDialog
 				isOpen={dialogs.technology}
 				onClose={() => closeDialog("technology")}
-				onSubmit={(data) => handleRegisterSubmit("Technology", data)}
+				registeredTechnologies={userDetails?.us_technology}
+				usRef={userRef}
+				showAlert={showAlert}
 			/>
 			<GalleryDialog
 				isOpen={dialogs.gallery}

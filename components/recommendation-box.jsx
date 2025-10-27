@@ -98,7 +98,7 @@ export default function RecommendationBox() {
 	return (
 		<div
 			ref={boxRef}
-			className="fixed w-80 bg-gradient-to-br from-blue-700/10 to-blue-700/5 border border-blue-700/40 rounded-lg p-4 shadow-lg backdrop-blur-sm z-50 transition-shadow duration-200"
+			className="fixed w-80 bg-gradient-to-br from-blue-700/10 to-blue-700/5 border border-blue-700/30 rounded-lg p-4 shadow-lg backdrop-blur-sm z-50 transition-shadow duration-200"
 			style={{
 				top: `${position.y}px`,
 				left: `${position.x}px`,
