@@ -35,7 +35,7 @@ export default function ChatButton() {
 			<button
 				ref={buttonRef}
 				onClick={() => setIsOpen(!isOpen)}
-				className="fixed bottom-8 right-8 z-40 flex items-center gap-2 px-4 py-3 bg-purple-500 text-white rounded-full shadow-lg hover:bg-purple-600 transition-colors "
+				className="fixed bottom-8 right-8 z-40 flex items-center gap-2 px-4 py-3 bg-blue-700 text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors "
 			>
 				<MessageCircle className="w-5 h-5 relative z-10 animate-wave" />
 				<span className="text-sm relative z-10">Chat with Lawrence</span>

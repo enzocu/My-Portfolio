@@ -72,7 +72,7 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 				<a
 					href="#"
 					className={`text-muted-foreground transition-colors ${
-						isDark ? "hover:text-blue-400" : "hover:text-blue-600"
+						isDark ? "hover:text-blue-600" : "hover:text-blue-600"
 					}`}
 					aria-label="GitHub"
 				>
@@ -90,7 +90,7 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 				<a
 					href="#"
 					className={`text-muted-foreground transition-colors ${
-						isDark ? "hover:text-blue-500" : "hover:text-blue-700"
+						isDark ? "hover:text-blue-700" : "hover:text-blue-700"
 					}`}
 					aria-label="Facebook"
 				>

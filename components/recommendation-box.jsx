@@ -98,7 +98,7 @@ export default function RecommendationBox() {
 	return (
 		<div
 			ref={boxRef}
-			className="fixed w-80 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/30 rounded-lg p-4 shadow-lg backdrop-blur-sm z-50 transition-shadow duration-200"
+			className="fixed w-80 bg-gradient-to-br from-blue-700/10 to-blue-700/5 border border-blue-700/40 rounded-lg p-4 shadow-lg backdrop-blur-sm z-50 transition-shadow duration-200"
 			style={{
 				top: `${position.y}px`,
 				left: `${position.x}px`,
@@ -111,11 +111,9 @@ export default function RecommendationBox() {
 			onMouseDown={handleMouseDown}
 		>
 			<div className="flex items-start gap-3" style={{ cursor: "grab" }}>
-				<AlertCircle className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+				<AlertCircle className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
 				<div className="flex-1">
-					<h3 className="text-sm font-semibold text-purple-500 mb-1">
-						Tech Tip
-					</h3>
+					<h3 className="text-sm font-semibold text-blue-700 mb-1">Tech Tip</h3>
 					<p className="text-sm text-muted-foreground leading-relaxed">
 						{recommendations[currentIndex]}
 					</p>
@@ -125,8 +123,8 @@ export default function RecommendationBox() {
 								key={index}
 								className={`h-1 rounded-full transition-all duration-300 ${
 									index === currentIndex
-										? "w-6 bg-purple-500"
-										: "w-1 bg-purple-500/30"
+										? "w-6 bg-blue-700"
+										: "w-1 bg-blue-700/30"
 								}`}
 							/>
 						))}

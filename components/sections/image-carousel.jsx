@@ -36,7 +36,7 @@ export default function ImageCarousel() {
 
 	return (
 		<section id="gallery" className="scroll-mt-20">
-			<h2 className="text-2xl lg:text-3xl font-bold text-purple-500 mb-6">
+			<h2 className="text-2xl lg:text-3xl font-bold text-blue-700 mb-6">
 				Gallery
 			</h2>
 
@@ -73,7 +73,7 @@ export default function ImageCarousel() {
 								key={index}
 								onClick={() => setCurrentIndex(index)}
 								className={`w-2 h-2 rounded-full transition-all ${
-									index === currentIndex ? "bg-purple-500 w-6" : "bg-white/50"
+									index === currentIndex ? "bg-blue-700 w-6" : "bg-white/50"
 								}`}
 								aria-label={`Go to image ${index + 1}`}
 							/>

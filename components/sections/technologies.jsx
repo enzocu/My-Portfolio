@@ -9,7 +9,7 @@ export default function TechnologiesSection() {
 
 	return (
 		<section id="technologies" className="scroll-mt-28">
-			<h2 className="text-2xl lg:text-3xl font-bold text-purple-500 mb-6">
+			<h2 className="text-2xl lg:text-3xl font-bold text-blue-700 mb-6">
 				Technologies
 			</h2>
 
@@ -30,7 +30,7 @@ export default function TechnologiesSection() {
 						return (
 							<div
 								key={techName}
-								className="px-4 py-2 bg-purple-500/5 border border-purple-500/30 rounded-4xl text-sm font-medium text-purple-400 hover:bg-purple-500/20 transition-colors flex items-center gap-2"
+								className="px-4 py-2 bg-blue-700/5 border border-blue-700/40 rounded-4xl text-sm font-medium text-blue-600 hover:bg-blue-700/20 transition-colors flex items-center gap-2"
 							>
 								{IconComponent && <IconComponent size={18} />}
 								{techName}
