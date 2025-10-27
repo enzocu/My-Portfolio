@@ -6,8 +6,13 @@ import Image from "next/image";
 import callGemini from "@/controller/api/geminiAPI";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { getSaveTag } from "../../controller/get/getSavetag";
+import { useAlert } from "@/contexts/alert-context";
+import { useUserAuth } from "@/contexts/user-context";
 
 export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
+	const { userRef, userDetails } = useUserAuth();
+	const { showAlert } = useAlert();
 	const [messages, setMessages] = useState([
 		{
 			role: "model",
@@ -20,11 +25,18 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 	]);
 	const [inputValue, setInputValue] = useState("");
 	const [isThinking, setIsThinking] = useState(false);
+	const [saveTagData, setSaveTagData] = useState("");
 	const messagesEndRef = useRef(null);
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages, isThinking, isOpen]);
+
+	useEffect(() => {
+		if (userRef) {
+			getSaveTag(userRef, setSaveTagData, showAlert);
+		}
+	}, [userRef]);
 
 	const handleSendMessage = async (e) => {
 		e.preventDefault();
@@ -42,7 +54,7 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 		await callGemini(
 			newMessages,
 			setMessages,
-			"Chat with Lawrence",
+			saveTagData || "No additional data.",
 			setIsThinking
 		);
 	};
