@@ -74,7 +74,7 @@ export default function AchievementsDialog({
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden">
+			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md  mx-6 max-h-[90vh] flex flex-col overflow-hidden">
 				<div className="flex items-center justify-between p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">
 						{achievementData ? "Update Achievement" : "Register Achievement"}

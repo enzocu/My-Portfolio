@@ -35,10 +35,11 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 					Lawrence S. Cunanan
 				</h1>
 				<p className="text-lg lg:text-2xl text-muted-foreground mb-2">
-					Web Development Lead
+					Frontend Developer
 				</p>
 				<p className="text-base text-muted-foreground mb-8 lg:mb-12">
-					Google Developer Groups on Campus
+					I build responsive, simple, and elegant <br /> web and mobile
+					applications.
 				</p>
 
 				<nav className="space-y-4 lg:space-y-6">

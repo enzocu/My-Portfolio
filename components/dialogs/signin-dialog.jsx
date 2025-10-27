@@ -57,7 +57,7 @@ export default function SignInDialog({ isOpen, onClose }) {
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-			<div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-sm mx-4 animate-in fade-in zoom-in-95 duration-300">
+			<div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-sm mx-6 animate-in fade-in zoom-in-95 duration-300">
 				<div className="flex items-center justify-between mb-6 p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">Sign In</h2>
 					<button

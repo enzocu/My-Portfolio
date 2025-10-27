@@ -47,7 +47,7 @@ export default function ProjectsSection() {
 
 	return (
 		<section id="projects" className="scroll-mt-28">
-			<h2 className="text-2xl lg:text-3xl font-bold text-blue-700 mb-6">
+			<h2 className="text-2xl lg:text-3xl font-bold text-blue-700 mb-5">
 				Projects
 			</h2>
 
@@ -84,7 +84,7 @@ export default function ProjectsSection() {
 								<img
 									src={project.pr_photoURL || "/placeholder.svg"}
 									alt={project.pr_title}
-									className="w-full h-full object-cover"
+									className="w-full h-full object-fit"
 								/>
 
 								{userDetails?.isCurrentUser && (
