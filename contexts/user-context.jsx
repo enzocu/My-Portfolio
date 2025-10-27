@@ -73,7 +73,7 @@ export function UserContextAuthProvider({ children }) {
 		<UserContextAuth.Provider value={{ user, userDetails, userRef, loading }}>
 			{loading ? (
 				<div className="flex items-center justify-center h-screen w-full bg-background">
-					<Lottie animationData={authAnimation} loop className="w-60 h-60" />
+					<Lottie animationData={authAnimation} loop className="w-78 h-78" />
 				</div>
 			) : (
 				children
