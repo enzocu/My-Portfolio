@@ -140,7 +140,6 @@ export default function Header({ isDark, onToggleDarkMode }) {
 					</div>
 				</div>
 
-				{/* Mobile Menu */}
 				{isMobileMenuOpen && (
 					<div className="md:hidden border-t border-border bg-background/95 backdrop-blur-sm">
 						<div className="px-6 py-4 space-y-4">

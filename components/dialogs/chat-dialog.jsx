@@ -30,7 +30,6 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 
 		if (!inputValue.trim()) return;
 
-		// Add user message
 		const userMessage = {
 			id: messages.length + 1,
 			type: "user",
@@ -41,7 +40,6 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 		setInputValue("");
 		setIsThinking(true);
 
-		// Simulate bot response
 		setTimeout(() => {
 			setIsThinking(false);
 			const botMessage = {
@@ -76,7 +74,6 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 				className="bg-card border border-border rounded-xl shadow-xl w-full max-w-sm mx-4 h-[500px] flex flex-col animate-in fade-in zoom-in-95 duration-300 md:mx-0"
 				onClick={(e) => e.stopPropagation()}
 			>
-				{/* Header */}
 				<div className="flex items-center gap-3 px-6 py-4 border-b border-border">
 					<div className="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden">
 						<Image
@@ -120,7 +117,6 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 					</button>
 				</div>
 
-				{/* Messages */}
 				<div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
 					{messages.map((message) => (
 						<div

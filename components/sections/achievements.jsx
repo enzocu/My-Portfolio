@@ -13,7 +13,6 @@ export default function AchievementsSection() {
 	const [loading, setLoading] = useState(false);
 	const [limitValue, setLimitValue] = useState(3);
 
-	// Dialog state
 	const [dialogs, setDialogs] = useState({ achievements: false });
 	const [selectedAchievement, setSelectedAchievement] = useState(null);
 

@@ -14,7 +14,6 @@ export default function ProjectsSection() {
 	const [loading, setLoading] = useState(false);
 	const [limitValue, setLimitValue] = useState(3);
 
-	// Dialog state
 	const [dialogs, setDialogs] = useState({ project: false });
 	const [selectedProject, setSelectedProject] = useState(null);
 
@@ -52,7 +51,6 @@ export default function ProjectsSection() {
 				Projects
 			</h2>
 
-			{/* Loading */}
 			{loading ? (
 				<div className="space-y-6">
 					{[1, 2, 3].map((i) => (

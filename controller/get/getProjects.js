@@ -28,7 +28,6 @@ export function getProjects(
 			limitFn(limit)
 		);
 
-		// ✅ Return the unsubscribe function directly
 		const unsubscribe = onSnapshot(
 			q,
 			(snapshot) => {

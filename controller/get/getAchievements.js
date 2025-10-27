@@ -27,7 +27,6 @@ export function getAchievements(
 			limitFn(limit)
 		);
 
-		// ✅ Return the unsubscribe function directly
 		const unsubscribe = onSnapshot(
 			q,
 			(snapshot) => {
@@ -50,10 +49,10 @@ export function getAchievements(
 			}
 		);
 
-		return unsubscribe; // ✅ so useEffect cleanup can call it
+		return unsubscribe;
 	} catch (error) {
 		showAlert?.(error?.message || "Something went wrong.", "danger");
 		setLoading(false);
-		return () => {}; // ✅ ensure always returns a function
+		return () => {};
 	}
 }

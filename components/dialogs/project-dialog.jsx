@@ -103,7 +103,6 @@ export default function ProjectDialog({
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 			<div className="bg-card border border-border rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden">
-				{/* Header */}
 				<div className="flex items-center justify-between p-6 border-b border-border">
 					<h2 className="text-xl font-semibold text-foreground">
 						{projectData ? "Update Project" : "Register Project"}
@@ -117,10 +116,8 @@ export default function ProjectDialog({
 					</button>
 				</div>
 
-				{/* Body */}
 				<div className="p-6 overflow-y-auto flex-1 space-y-5">
 					<form onSubmit={handleSubmit} className="space-y-5">
-						{/* Picture */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								Picture <span className="text-red-500">*</span>
@@ -142,7 +139,6 @@ export default function ProjectDialog({
 							)}
 						</div>
 
-						{/* Title */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								Title <span className="text-red-500">*</span>
@@ -158,7 +154,6 @@ export default function ProjectDialog({
 							/>
 						</div>
 
-						{/* About */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								About <span className="text-red-500">*</span>
@@ -174,7 +169,6 @@ export default function ProjectDialog({
 							/>
 						</div>
 
-						{/* Date */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">
 								Date <span className="text-red-500">*</span>
@@ -189,7 +183,6 @@ export default function ProjectDialog({
 							/>
 						</div>
 
-						{/* URL */}
 						<div>
 							<label className="block text-sm text-foreground mb-2">URL</label>
 							<input
@@ -203,7 +196,6 @@ export default function ProjectDialog({
 							/>
 						</div>
 
-						{/* Technologies */}
 						<div>
 							<label className="block text-sm text-foreground mb-3">
 								Technologies Used

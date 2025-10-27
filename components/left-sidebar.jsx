@@ -30,7 +30,6 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 
 	return (
 		<div className="w-full h-auto lg:h-screen flex flex-col justify-between pt-28 pb-6 ">
-			{/* Header Section */}
 			<div>
 				<h1 className="text-4xl lg:text-5xl font-bold mb-2">
 					Lawrence S. Cunanan
@@ -42,7 +41,6 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 					Google Developer Groups on Campus
 				</p>
 
-				{/* Navigation Menu */}
 				<nav className="space-y-4 lg:space-y-6">
 					{sections.map((section) => (
 						<button
@@ -67,7 +65,6 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 				</nav>
 			</div>
 
-			{/* Social Icons */}
 			<div className="flex gap-6">
 				<a
 					href="#"
