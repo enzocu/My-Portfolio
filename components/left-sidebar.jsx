@@ -78,7 +78,7 @@ export default function LeftSidebar({ activeSection, onSectionClick }) {
 					<Github className="w-5 h-5 lg:w-6 lg:h-6" />
 				</a>
 				<a
-					href="https://www.facebook.com/lawrence.cunanan.7"
+					href="/"
 					target="_blank"
 					className={`text-muted-foreground transition-colors ${
 						isDark ? "hover:text-blue-700" : "hover:text-blue-700"
