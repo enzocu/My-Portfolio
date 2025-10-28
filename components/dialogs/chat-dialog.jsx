@@ -83,7 +83,7 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 			>
 				{/* Header */}
 				<div className="flex items-center gap-3 px-6 py-4 border-b border-border">
-					<div className="w-10 h-10 rounded-full overflow-hidden">
+					<div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
 						<Image
 							src="/lawrence-profile.jpg"
 							alt="Lawrence Cunanan"
@@ -134,7 +134,7 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 
 						return (
 							<div key={i} className="flex gap-3 justify-start">
-								<div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+								<div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
 									<Image
 										src="/lawrence-profile.jpg"
 										alt="Lawrence"
@@ -206,7 +206,7 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 
 					{isThinking && (
 						<div className="flex gap-3 justify-start">
-							<div className="w-8 h-8 rounded-full overflow-hidden">
+							<div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200">
 								<Image
 									src="/lawrence-profile.jpg"
 									alt="Lawrence"

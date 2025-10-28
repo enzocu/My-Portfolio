@@ -57,7 +57,7 @@ export default function ImageCarousel() {
 						{images.map((url, index) => (
 							<div
 								key={index}
-								className="flex-shrink-0 w-[250px] h-[150px] sm:w-[350px] sm:h-[200px] rounded-lg overflow-hidden border border-gray-300 shadow-md relative transition-transform duration-300"
+								className="flex-shrink-0 w-[250px] h-[150px] sm:w-[350px] sm:h-[200px] rounded-lg overflow-hidden border border-gray-300 shadow-md relative transition-transform duration-300 bg-gray-200"
 							>
 								<img
 									src={url || "/placeholder.svg"}
