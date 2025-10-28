@@ -137,7 +137,7 @@ export default function ProjectsSection() {
 				</div>
 			)}
 
-			{!loading && projectsData.length > 3 && projectsData.length > 0 && (
+			{!loading && projectsData.length > 0 && (
 				<button
 					onClick={handleToggleLimit}
 					className="mt-6 py-2 text-blue-700 hover:text-blue-600 font-medium transition-all duration-300 hover:translate-x-1 flex items-center gap-2"
