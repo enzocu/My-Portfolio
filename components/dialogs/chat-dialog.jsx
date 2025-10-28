@@ -78,7 +78,7 @@ export default function ChatDialog({ isOpen, onClose, buttonPosition }) {
 		>
 			<div
 				style={dialogStyle}
-				className="bg-card border border-border rounded-xl shadow-xl w-full max-w-md mx-6 h-[600px] flex flex-col animate-in fade-in zoom-in-95 duration-300 md:mx-0"
+				className="bg-card border border-border rounded-xl shadow-xl w-full max-w-md mx-6 h-[550px] flex flex-col animate-in fade-in zoom-in-95 duration-300 md:mx-0"
 				onClick={(e) => e.stopPropagation()}
 			>
 				{/* Header */}
