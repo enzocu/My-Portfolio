@@ -45,7 +45,7 @@ export default function Header({ isDark, onToggleDarkMode }) {
 
 	const handleDownloadCV = () => {
 		const link = document.createElement("a");
-		link.href = "/cv.pdf";
+		link.href = "/Cunanan, Lawrence S_CV.pdf";
 		link.download = "Lawrence-CV.pdf";
 		document.body.appendChild(link);
 		link.click();
