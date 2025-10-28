@@ -89,7 +89,7 @@ export default function AchievementsSection() {
 							key={index}
 							className="flex flex-col-reverse sm:flex-row items-start gap-4 p-4 rounded-lg border border-border/50 hover:border-blue-700/30 hover:bg-muted/30 transition-all duration-200 group"
 						>
-							<div className="w-58 h-32 sm:w-40 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border bg-muted group-hover:border-blue-700 transition-colors duration-300 relative bg-gray-200">
+							<div className="w-58 h-32 sm:w-40 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border bg-muted group-hover:border-blue-700 transition-colors duration-300 relative bg-gray-100">
 								<img
 									src={achievement.ac_photoURL || "/placeholder.svg"}
 									alt={achievement.ac_title}

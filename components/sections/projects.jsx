@@ -80,7 +80,7 @@ export default function ProjectsSection() {
 							key={index}
 							className="flex flex-col-reverse sm:flex-row gap-6 pb-6 border-b border-border last:border-b-0 group"
 						>
-							<div className="w-58 h-32 sm:w-40 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border group-hover:border-blue-700 transition-colors duration-300 relative bg-gray-200">
+							<div className="w-58 h-32 sm:w-40 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border group-hover:border-blue-700 transition-colors duration-300 relative bg-gray-100">
 								<img
 									src={project.pr_photoURL || "/placeholder.svg"}
 									alt={project.pr_title}
