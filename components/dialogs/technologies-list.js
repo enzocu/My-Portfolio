@@ -12,7 +12,6 @@ import {
 	FaPython,
 	FaReact,
 	FaVuejs,
-	SiDart,
 } from "react-icons/fa";
 
 import {
@@ -29,6 +28,7 @@ import {
 	SiTypescript,
 	SiVite,
 	SiGooglemaps,
+	SiDart,
 } from "react-icons/si";
 
 import { GiGemini } from "react-icons/gi";
