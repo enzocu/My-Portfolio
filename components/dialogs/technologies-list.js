@@ -12,6 +12,7 @@ import {
 	FaPython,
 	FaReact,
 	FaVuejs,
+	SiDart,
 } from "react-icons/fa";
 
 import {
@@ -36,6 +37,7 @@ export const AVAILABLE_TECHNOLOGIES = [
 	{ name: "Angular", icon: FaAngular },
 	{ name: "Bootstrap", icon: FaBootstrap },
 	{ name: "CSS", icon: FaCss3Alt },
+	{ name: "Dart", icon: SiDart },
 	{ name: "Django", icon: SiDjango },
 	{ name: "Express", icon: SiExpress },
 	{ name: "Figma", icon: FaFigma },
