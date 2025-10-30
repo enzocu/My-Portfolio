@@ -12,7 +12,7 @@ export default function ProjectsSection() {
 	const { showAlert } = useAlert();
 	const [projectsData, setProjectsData] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [limitValue, setLimitValue] = useState(3);
+	const [limitValue, setLimitValue] = useState(5);
 
 	const [dialogs, setDialogs] = useState({ project: false });
 	const [selectedProject, setSelectedProject] = useState(null);
@@ -32,7 +32,7 @@ export default function ProjectsSection() {
 	}, [userRef, limitValue]);
 
 	const handleToggleLimit = () => {
-		setLimitValue((prev) => (prev === 3 ? 20 : 3));
+		setLimitValue((prev) => (prev === 5 ? 20 : 5));
 	};
 
 	const openProjectDialog = (project = null) => {
@@ -142,7 +142,7 @@ export default function ProjectsSection() {
 					onClick={handleToggleLimit}
 					className="mt-6 py-2 text-blue-700 hover:text-blue-600 font-medium transition-all duration-300 hover:translate-x-1 flex items-center gap-2"
 				>
-					{limitValue === 3 ? "View All" : "View Less"}
+					{limitValue === 5 ? "View All" : "View Less"}
 					<span className="text-lg">›</span>
 				</button>
 			)}
